@@ -1,0 +1,23 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "შეცდომა";
+}
+
+<h1 class="text-danger">შეცდომა.</h1>
+<h2 class="text-danger">თქვენი მოთხოვნის დამუშავებისას მოხდა შეცდომა.</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>მოთხოვნის ID:</strong> <code>@Model.RequestId</code>
+    </p>
+}
+
+<h3>დეველოპმენტის რეჟიმი</h3>
+<p>
+    <strong>Development</strong> გარემოზე გადართვა აჩვენებს უფრო დეტალურ ინფორმაციას მომხდარი შეცდომის შესახებ.
+</p>
+<p>
+    <strong>Development გარემო არ უნდა იყოს ჩართული რეალურ აპლიკაციებში.</strong>
+    ამან შეიძლება გამოიწვიოს სენსიტიური ინფორმაციის ჩვენება საბოლოო მომხმარებლებისთვის.
+</p>

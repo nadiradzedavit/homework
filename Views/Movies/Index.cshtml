@@ -1,0 +1,224 @@
+@model PaginatedList<MovieTracker.Models.Movie>
+
+@{
+    ViewData["Title"] = "ფილმების სია";
+}
+
+<h1>ფილმების სია</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">ახალი ფილმის დამატება</a>
+</p>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form asp-action="Index" method="get">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">ჟანრი</label>
+                    <input type="text" name="genre" value="@ViewContext.HttpContext.Request.Query["genre"]" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">პლატფორმა</label>
+                    <input type="text" name="platform" value="@ViewContext.HttpContext.Request.Query["platform"]" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">სტატუსი</label>
+                    <select name="status" class="form-control">
+                        <option value="">ყველა</option>
+                        <option value="Watched">ნანახი (Watched)</option>
+                        <option value="Watchlist">სანახავი (Watchlist)</option>
+                        <option value="Skipped">გამოტოვებული (Skipped)</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">ენა</label>
+                    <input type="text" name="language" value="@ViewContext.HttpContext.Request.Query["language"]" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">წელი (min)</label>
+                    <input type="number" name="minYear" value="@ViewContext.HttpContext.Request.Query["minYear"]" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">წელი (max)</label>
+                    <input type="number" name="maxYear" value="@ViewContext.HttpContext.Request.Query["maxYear"]" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">რეიტინგი (min)</label>
+                    <input type="number" step="0.1" name="minRating" value="@ViewContext.HttpContext.Request.Query["minRating"]" class="form-control" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">რეიტინგი (max)</label>
+                    <input type="number" step="0.1" name="maxRating" value="@ViewContext.HttpContext.Request.Query["maxRating"]" class="form-control" />
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-secondary me-2">ფილტრაცია</button>
+                    <a asp-action="Index" class="btn btn-link text-decoration-none">გასუფთავება</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table class="table table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>
+                <a asp-action="Index" 
+                   asp-route-sortOrder="@ViewData["TitleSortParm"]" 
+                   asp-route-genre="@ViewContext.HttpContext.Request.Query["genre"]"
+                   asp-route-platform="@ViewContext.HttpContext.Request.Query["platform"]"
+                   asp-route-status="@ViewContext.HttpContext.Request.Query["status"]"
+                   asp-route-language="@ViewContext.HttpContext.Request.Query["language"]"
+                   asp-route-minYear="@ViewContext.HttpContext.Request.Query["minYear"]"
+                   asp-route-maxYear="@ViewContext.HttpContext.Request.Query["maxYear"]"
+                   asp-route-minRating="@ViewContext.HttpContext.Request.Query["minRating"]"
+                   asp-route-maxRating="@ViewContext.HttpContext.Request.Query["maxRating"]">სათაური</a>
+            </th>
+            <th>
+                <a asp-action="Index" 
+                   asp-route-sortOrder="@ViewData["DirectorSortParm"]"
+                   asp-route-genre="@ViewContext.HttpContext.Request.Query["genre"]"
+                   asp-route-platform="@ViewContext.HttpContext.Request.Query["platform"]"
+                   asp-route-status="@ViewContext.HttpContext.Request.Query["status"]"
+                   asp-route-language="@ViewContext.HttpContext.Request.Query["language"]"
+                   asp-route-minYear="@ViewContext.HttpContext.Request.Query["minYear"]"
+                   asp-route-maxYear="@ViewContext.HttpContext.Request.Query["maxYear"]"
+                   asp-route-minRating="@ViewContext.HttpContext.Request.Query["minRating"]"
+                   asp-route-maxRating="@ViewContext.HttpContext.Request.Query["maxRating"]">რეჟისორი</a>
+            </th>
+            <th>ჟანრი</th>
+            <th>
+                <a asp-action="Index" 
+                   asp-route-sortOrder="@ViewData["YearSortParm"]"
+                   asp-route-genre="@ViewContext.HttpContext.Request.Query["genre"]"
+                   asp-route-platform="@ViewContext.HttpContext.Request.Query["platform"]"
+                   asp-route-status="@ViewContext.HttpContext.Request.Query["status"]"
+                   asp-route-language="@ViewContext.HttpContext.Request.Query["language"]"
+                   asp-route-minYear="@ViewContext.HttpContext.Request.Query["minYear"]"
+                   asp-route-maxYear="@ViewContext.HttpContext.Request.Query["maxYear"]"
+                   asp-route-minRating="@ViewContext.HttpContext.Request.Query["minRating"]"
+                   asp-route-maxRating="@ViewContext.HttpContext.Request.Query["maxRating"]">წელი</a>
+            </th>
+            <th>
+                <a asp-action="Index" 
+                   asp-route-sortOrder="@ViewData["RatingSortParm"]"
+                   asp-route-genre="@ViewContext.HttpContext.Request.Query["genre"]"
+                   asp-route-platform="@ViewContext.HttpContext.Request.Query["platform"]"
+                   asp-route-status="@ViewContext.HttpContext.Request.Query["status"]"
+                   asp-route-language="@ViewContext.HttpContext.Request.Query["language"]"
+                   asp-route-minYear="@ViewContext.HttpContext.Request.Query["minYear"]"
+                   asp-route-maxYear="@ViewContext.HttpContext.Request.Query["maxYear"]"
+                   asp-route-minRating="@ViewContext.HttpContext.Request.Query["minRating"]"
+                   asp-route-maxRating="@ViewContext.HttpContext.Request.Query["maxRating"]">შეფასება</a>
+            </th>
+            <th>სტატუსი</th>
+            <th>პლატფორმა</th>
+            <th>
+                <a asp-action="Index" 
+                   asp-route-sortOrder="@ViewData["DurationSortParm"]"
+                   asp-route-genre="@ViewContext.HttpContext.Request.Query["genre"]"
+                   asp-route-platform="@ViewContext.HttpContext.Request.Query["platform"]"
+                   asp-route-status="@ViewContext.HttpContext.Request.Query["status"]"
+                   asp-route-language="@ViewContext.HttpContext.Request.Query["language"]"
+                   asp-route-minYear="@ViewContext.HttpContext.Request.Query["minYear"]"
+                   asp-route-maxYear="@ViewContext.HttpContext.Request.Query["maxYear"]"
+                   asp-route-minRating="@ViewContext.HttpContext.Request.Query["minRating"]"
+                   asp-route-maxRating="@ViewContext.HttpContext.Request.Query["maxRating"]">ხანგრძლივობა</a>
+            </th>
+            <th>
+                <a asp-action="Index" 
+                   asp-route-sortOrder="@ViewData["DateSortParm"]"
+                   asp-route-genre="@ViewContext.HttpContext.Request.Query["genre"]"
+                   asp-route-platform="@ViewContext.HttpContext.Request.Query["platform"]"
+                   asp-route-status="@ViewContext.HttpContext.Request.Query["status"]"
+                   asp-route-language="@ViewContext.HttpContext.Request.Query["language"]"
+                   asp-route-minYear="@ViewContext.HttpContext.Request.Query["minYear"]"
+                   asp-route-maxYear="@ViewContext.HttpContext.Request.Query["maxYear"]"
+                   asp-route-minRating="@ViewContext.HttpContext.Request.Query["minRating"]"
+                   asp-route-maxRating="@ViewContext.HttpContext.Request.Query["maxRating"]">ნანახია</a>
+            </th>
+            <th>მოქმედებები</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                <td>@Html.DisplayFor(modelItem => item.Director)</td>
+                <td>@Html.DisplayFor(modelItem => item.Genre)</td>
+                <td>@Html.DisplayFor(modelItem => item.ReleaseYear)</td>
+                <td>@Html.DisplayFor(modelItem => item.Rating)</td>
+                <td>
+                    @{
+                        var badgeClass = item.WatchStatus switch {
+                            "Watched" => "bg-success",
+                            "Watchlist" => "bg-primary",
+                            "Skipped" => "bg-secondary",
+                            _ => "bg-info"
+                        };
+                        var statusGeo = item.WatchStatus switch {
+                            "Watched" => "ნანახი",
+                            "Watchlist" => "სანახავი",
+                            "Skipped" => "გამოტოვებული",
+                            _ => item.WatchStatus
+                        };
+                    }
+                    <span class="badge @badgeClass">@statusGeo</span>
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Platform)</td>
+                <td>@item.Duration წთ</td>
+                <td>@item.WatchedDate?.ToShortDateString()</td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning">შეცვლა</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">დეტალები</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">წაშლა</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<nav>
+    <ul class="pagination justify-content-center">
+        <li class="page-item @prevDisabled">
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNumber="@(Model.PageIndex - 1)"
+               asp-route-genre="@ViewContext.HttpContext.Request.Query["genre"]"
+               asp-route-platform="@ViewContext.HttpContext.Request.Query["platform"]"
+               asp-route-status="@ViewContext.HttpContext.Request.Query["status"]"
+               asp-route-language="@ViewContext.HttpContext.Request.Query["language"]"
+               asp-route-minYear="@ViewContext.HttpContext.Request.Query["minYear"]"
+               asp-route-maxYear="@ViewContext.HttpContext.Request.Query["maxYear"]"
+               asp-route-minRating="@ViewContext.HttpContext.Request.Query["minRating"]"
+               asp-route-maxRating="@ViewContext.HttpContext.Request.Query["maxRating"]"
+               class="page-link">წინა</a>
+        </li>
+        <li class="page-item disabled">
+            <span class="page-link">გვერდი @Model.PageIndex / @Model.TotalPages</span>
+        </li>
+        <li class="page-item @nextDisabled">
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNumber="@(Model.PageIndex + 1)"
+               asp-route-genre="@ViewContext.HttpContext.Request.Query["genre"]"
+               asp-route-platform="@ViewContext.HttpContext.Request.Query["platform"]"
+               asp-route-status="@ViewContext.HttpContext.Request.Query["status"]"
+               asp-route-language="@ViewContext.HttpContext.Request.Query["language"]"
+               asp-route-minYear="@ViewContext.HttpContext.Request.Query["minYear"]"
+               asp-route-maxYear="@ViewContext.HttpContext.Request.Query["maxYear"]"
+               asp-route-minRating="@ViewContext.HttpContext.Request.Query["minRating"]"
+               asp-route-maxRating="@ViewContext.HttpContext.Request.Query["maxRating"]"
+               class="page-link">შემდეგი</a>
+        </li>
+    </ul>
+</nav>

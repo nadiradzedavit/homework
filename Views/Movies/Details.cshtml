@@ -1,0 +1,60 @@
+@model MovieTracker.Models.Movie
+
+@{
+    ViewData["Title"] = "ფილმის დეტალები";
+}
+
+<h1>დეტალები</h1>
+
+<div>
+    <h4>ფილმი</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-3">@Html.DisplayNameFor(model => model.Title)</dt>
+        <dd class = "col-sm-9">@Html.DisplayFor(model => model.Title)</dd>
+        
+        <dt class = "col-sm-3">@Html.DisplayNameFor(model => model.Director)</dt>
+        <dd class = "col-sm-9">@Html.DisplayFor(model => model.Director)</dd>
+        
+        <dt class = "col-sm-3">@Html.DisplayNameFor(model => model.Genre)</dt>
+        <dd class = "col-sm-9">@Html.DisplayFor(model => model.Genre)</dd>
+        
+        <dt class = "col-sm-3">@Html.DisplayNameFor(model => model.ReleaseYear)</dt>
+        <dd class = "col-sm-9">@Html.DisplayFor(model => model.ReleaseYear)</dd>
+        
+        <dt class = "col-sm-3">@Html.DisplayNameFor(model => model.Rating)</dt>
+        <dd class = "col-sm-9">@Html.DisplayFor(model => model.Rating)</dd>
+        
+        <dt class = "col-sm-3">@Html.DisplayNameFor(model => model.WatchStatus)</dt>
+        <dd class = "col-sm-9">
+            @{
+                var statusGeo = Model.WatchStatus switch {
+                    "Watched" => "ნანახი",
+                    "Watchlist" => "სანახავი",
+                    "Skipped" => "გამოტოვებული",
+                    _ => Model.WatchStatus
+                };
+            }
+            @statusGeo
+        </dd>
+        
+        <dt class = "col-sm-3">@Html.DisplayNameFor(model => model.Platform)</dt>
+        <dd class = "col-sm-9">@Html.DisplayFor(model => model.Platform)</dd>
+        
+        <dt class = "col-sm-3">@Html.DisplayNameFor(model => model.Duration)</dt>
+        <dd class = "col-sm-9">@Html.DisplayFor(model => model.Duration) წთ</dd>
+        
+        <dt class = "col-sm-3">@Html.DisplayNameFor(model => model.Language)</dt>
+        <dd class = "col-sm-9">@Html.DisplayFor(model => model.Language)</dd>
+        
+        <dt class = "col-sm-3">@Html.DisplayNameFor(model => model.WatchedDate)</dt>
+        <dd class = "col-sm-9">@Html.DisplayFor(model => model.WatchedDate)</dd>
+        
+        <dt class = "col-sm-3">@Html.DisplayNameFor(model => model.Notes)</dt>
+        <dd class = "col-sm-9">@Html.DisplayFor(model => model.Notes)</dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">შეცვლა</a> |
+    <a asp-action="Index">სიაში დაბრუნება</a>
+</div>

@@ -1,0 +1,26 @@
+@model MovieTracker.Models.Movie
+
+@{
+    ViewData["Title"] = "ფილმის წაშლა";
+}
+
+<h1>წაშლა</h1>
+
+<h3>დარწმუნებული ხართ, რომ გსურთ ამ ჩანაწერის წაშლა?</h3>
+<div>
+    <h4>ფილმი</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">@Html.DisplayNameFor(model => model.Title)</dt>
+        <dd class = "col-sm-10">@Html.DisplayFor(model => model.Title)</dd>
+        
+        <dt class = "col-sm-2">@Html.DisplayNameFor(model => model.Director)</dt>
+        <dd class = "col-sm-10">@Html.DisplayFor(model => model.Director)</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="წაშლა" class="btn btn-danger" /> |
+        <a asp-action="Index">სიაში დაბრუნება</a>
+    </form>
+</div>
